@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'todoapp'
 ]
+LOGIN_URL = '/todo/login'
+LOGIN_REDIRECT_URL = '/todo/login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
