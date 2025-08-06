@@ -3,14 +3,17 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm
 from django.contrib.auth import login
+from .models import Task
 
 
 
 # Create your views here.
 def todo_home(request):
     return HttpResponse("this is todo home page !!!") 
+
 def hello(request): 
     return HttpResponse("this is hello page!!!")
+
 @login_required
 def hello_protected(request): 
     user = request.user
@@ -27,3 +30,7 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})
+def task_list(request): 
+    tasks = Task.objects.filter(user= request.user)
+    return render(request, 'task_list.html', {'tasks': tasks})
+
