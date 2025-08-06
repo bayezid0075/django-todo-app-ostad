@@ -13,13 +13,15 @@ def hello(request):
     return HttpResponse("this is hello page!!!")
 @login_required
 def hello_protected(request): 
-    return HttpResponse("this is hello protected page!!!")
+    user = request.user
+    return render(request, 'protected.html', {'user': user})
 
 def register(request): 
     if request.method == 'POST': 
         form = UserRegistrationForm(request.POST)
         if form.is_valid(): 
             user = form.save()
+            print(user, 'userdata')
             login(request,user)
             return redirect('hello_protected')
     else:

@@ -4,8 +4,10 @@ from . import views
 
 urlpatterns = [
     path('', views.todo_home),
-    path('hello/', views.hello),
+    path('hello/', views.hello, name='hello'),
     path('hello_protected/', views.hello_protected, name='hello_protected'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('register/', views.register, name='register'),
-]
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout')
+]  
+

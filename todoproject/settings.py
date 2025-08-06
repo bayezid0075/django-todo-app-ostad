@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'todoapp'
 ]
 LOGIN_URL = '/todo/login'
-LOGIN_REDIRECT_URL = '/todo/login'
+LOGIN_REDIRECT_URL = 'hello' #login korar por user kothay jabe 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
