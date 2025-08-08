@@ -1,11 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, TaskForm
 from django.contrib.auth import login
 from .models import Task
-
-
 
 # Create your views here.
 def todo_home(request):
@@ -30,10 +28,13 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})
+
+@login_required
 def task_list(request): 
     tasks = Task.objects.filter(user= request.user)
     return render(request, 'task_list.html', {'tasks': tasks})
 
+@login_required
 def create_task(request): 
     if request.method  == 'POST': 
        form = TaskForm(request.POST)
@@ -45,3 +46,23 @@ def create_task(request):
 
     form = TaskForm()
     return render(request, 'create_task.html', {'form': form})
+
+@login_required
+def task_edit(request, pk):
+    task = get_object_or_404(Task, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('tasklist')
+    else:
+        form = TaskForm(instance=task)
+    return render(request, 'create_task.html', {'form': form})
+
+
+@login_required
+def task_delete(request, pk):
+    task = get_object_or_404(Task, pk=pk, user=request.user)
+    if request.method == 'POST':
+        task.delete()
+    return redirect('tasklist')
